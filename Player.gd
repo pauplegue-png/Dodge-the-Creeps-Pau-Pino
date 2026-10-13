@@ -1,4 +1,5 @@
 extends Area2D
+signal hit
 
 @export var speed = 400 # A quina velocitat es mourà el jugador (píxels/seg).
 var screen_size # Mida de la finestra de joc.
@@ -6,6 +7,8 @@ var screen_size # Mida de la finestra de joc.
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	screen_size = get_viewport_rect().size
+	hide()
+
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -28,3 +31,22 @@ func _process(delta: float) -> void:
 	position += velocity * delta
 	position.x = clamp(position.x, 0, screen_size.x)
 	position.y = clamp(position.y, 0, screen_size.y)
+	if velocity.x != 0:
+		$AnimatedSprite2D.animation = "walk"
+		$AnimatedSprite2D.flip_v = false
+		$AnimatedSprite2D.flip_h = velocity.x < 0
+	elif velocity.y != 0:
+		$AnimatedSprite2D.animation = "up"
+		$AnimatedSprite2D.flip_v = velocity.y > 0
+
+func _on_area_entered(body) -> void:
+	hide() # El jugador desapareix després de ser impactat.
+	emit_signal("hit")
+	# S'ha d'ajornar, ja que no podem canviar les propietats físiques en una crida de retorn de física.
+	$CollisionShape2D.set_deferred("disabled", true)
+
+
+func start(pos):
+	position = pos
+	show()
+	$CollisionShape2D.disabled = false

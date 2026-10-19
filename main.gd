@@ -1,12 +1,12 @@
 extends Node
 
-@export var mob_scene: PackedScene
+@export var mob_scene: PackedScene = preload("res://mob.tscn")
 var score
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	randomize()
-	new_game()
+	#new_game()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -29,7 +29,7 @@ func _on_mob_timer_timeout() -> void:
 	
 	# Trieu una ubicació aleatòria a Path2D.
 	var mob_spawn_location = get_node("MobPath/MobSpawnLocation")
-	mob_spawn_location.offset = randi()
+	mob_spawn_location.progress_ratio = randf() # Godot 4 recomana progress_ratio en lloc de .offset directament si vols un valor percentual, tot i que .offset funciona si està configurat en píxels.
 	
 	# Estableix la direcció de la multitud perpendicular a la direcció del camí.
 	var direction = mob_spawn_location.rotation + PI / 2
@@ -44,7 +44,6 @@ func _on_mob_timer_timeout() -> void:
 	# Tria la velocitat de la multitud.
 	var velocity = Vector2(randf_range(150.0, 250.0), 0.0)
 	mob.linear_velocity = velocity.rotated(direction)
-
 	
 	# Va fer que la multitud s'afegís a l'escena principal.
 	add_child(mob)
@@ -52,8 +51,7 @@ func _on_mob_timer_timeout() -> void:
 
 func _on_score_timer_timeout() -> void:
 	score += 1
-
-
+	
 func _on_start_timer_timeout() -> void:
 	$MobTimer.start()
 	$ScoreTimer.start()

@@ -6,6 +6,7 @@ var score
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	randomize()
+	new_game()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -47,7 +48,6 @@ func _on_mob_timer_timeout() -> void:
 	
 	# Va fer que la multitud s'afegís a l'escena principal.
 	add_child(mob)
-
 
 
 func _on_score_timer_timeout() -> void:

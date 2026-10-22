@@ -7,20 +7,26 @@ var score
 func _ready() -> void:
 	randomize()
 	#new_game()
-
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass
 
 func game_over() -> void:
 	$ScoreTimer.stop()
 	$MobTimer.stop()
+	$Hud.show_game_over()
+	
 
 func new_game():
 	score = 0
 	$Player.start($StartPosition.position)
 	$StartTimer.start()
+	$Hud.update_score(score)
+	$Hud.show_message("Get Ready")
+	
+
 
 
 func _on_mob_timer_timeout() -> void:
@@ -44,13 +50,12 @@ func _on_mob_timer_timeout() -> void:
 	# Tria la velocitat de la multitud.
 	var velocity = Vector2(randf_range(150.0, 250.0), 0.0)
 	mob.linear_velocity = velocity.rotated(direction)
-	
 	# Va fer que la multitud s'afegís a l'escena principal.
 	add_child(mob)
 
-
 func _on_score_timer_timeout() -> void:
 	score += 1
+	$Hud.update_score(score)
 	
 func _on_start_timer_timeout() -> void:
 	$MobTimer.start()

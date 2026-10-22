@@ -14,7 +14,7 @@ func show_message(text):
 	$Missatge.text = text
 	$Missatge.show()
 	$MessageTimer.start()
-	print("show_message")
+
 
 func show_game_over():
 	show_message("Game Over")
@@ -31,10 +31,9 @@ func update_score(score):
 	
 func _on_message_timer_timeout() -> void:
 	$StartButton.hide()
-
+	$Missatge.hide()	
 
 func _on_start_button_pressed() -> void:
 	emit_signal("start_game")
-	$Missatge.hide()
 	$StartButton.hide()
 	

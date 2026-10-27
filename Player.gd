@@ -2,6 +2,7 @@ extends Area2D
 signal hit
 
 @export var speed = 400 # A quina velocitat es mourà el jugador (píxels/seg).
+@export var numJugador = 1# Identificador del jugador 
 var screen_size # Mida de la finestra de joc.
 
 # Called when the node enters the scene tree for the first time.
@@ -15,14 +16,29 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	var velocity = Vector2.ZERO # Vector de moviment del jugador.
-	if Input.is_action_pressed("move_right"):
-		velocity.x += 1
-	if Input.is_action_pressed("move_left"):
-		velocity.x -= 1
-	if Input.is_action_pressed("move_down"):
-		velocity.y += 1
-	if Input.is_action_pressed("move_up"):
-		velocity.y -= 1
+
+	if self.numJugador == 1:
+		if Input.is_action_pressed("move_right"):
+			velocity.x += 1
+		if Input.is_action_pressed("move_left"):
+			velocity.x -= 1
+		if Input.is_action_pressed("move_down"):
+			velocity.y += 1
+		if Input.is_action_pressed("move_up"):
+			velocity.y -= 1
+
+
+	if self.numJugador == 2:
+		if Input.is_action_pressed("move_rightV2"):
+			velocity.x += 1
+		if Input.is_action_pressed("move_leftV2"):
+			velocity.x -= 1
+		if	Input.is_action_pressed("move_downV2"):
+			velocity.y += 1
+		if Input.is_action_pressed("move_upV2"):
+			velocity.y -= 1
+	
+	
 	if velocity.length() > 0:
 		velocity = velocity.normalized() * speed
 		$AnimatedSprite2D.play()

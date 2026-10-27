@@ -3,6 +3,12 @@
 [ext_resource type="Script" uid="uid://d3jfipb1fynga" path="res://hud.gd" id="1_64ctp"]
 [ext_resource type="FontFile" uid="uid://y64fn2b1ev7i" path="res://fonts/Xolonium-Regular.ttf" id="2_8sq4i"]
 
+[sub_resource type="InputEventKey" id="InputEventKey_64ctp"]
+keycode = 4194309
+
+[sub_resource type="Shortcut" id="Shortcut_rji5c"]
+events = [SubResource("InputEventKey_64ctp")]
+
 [node name="Hud" type="CanvasLayer" unique_id=575233060]
 script = ExtResource("1_64ctp")
 
@@ -10,9 +16,9 @@ script = ExtResource("1_64ctp")
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -16.0
+offset_left = -88.0
 offset_top = 40.0
-offset_right = 29.0
+offset_right = -43.0
 offset_bottom = 118.0
 grow_horizontal = 2
 theme_override_fonts/font = ExtResource("2_8sq4i")
@@ -50,11 +56,25 @@ offset_bottom = -147.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_font_sizes/font_size = 32
+shortcut = SubResource("Shortcut_rji5c")
 text = "Start"
 
 [node name="MessageTimer" type="Timer" parent="." unique_id=169712004]
 wait_time = 2.0
 one_shot = true
+
+[node name="ScoreLabelJ2" type="Label" parent="." unique_id=910420547]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 48.0
+offset_top = 40.0
+offset_right = 93.0
+offset_bottom = 118.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("2_8sq4i")
+theme_override_font_sizes/font_size = 64
+text = "0"
 
 [connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="timeout" from="MessageTimer" to="." method="_on_message_timer_timeout"]

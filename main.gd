@@ -1,7 +1,9 @@
 extends Node
 
 @export var mob_scene: PackedScene = preload("res://mob.tscn")
-var score
+var scoreJ1
+var scoreJ2
+var yaColision
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -16,14 +18,24 @@ func _process(_delta: float) -> void:
 func game_over() -> void:
 	$ScoreTimer.stop()
 	$MobTimer.stop()
-	$Hud.show_game_over()
+	if yaColision == false:
+		$Hud.show_game_over(1)
+		yaColision = true
+		
+	$Music.stop()
+	$DeathSound.play()
 	
 
 func new_game():
-	score = 0
+	yaColision = false
+	scoreJ1 = 0
+	scoreJ2 = 0
 	$Player.start($StartPosition.position)
+	$Player2.start($StartPosition.position)
 	$StartTimer.start()
-	$Hud.update_score(score)
+	$Music.play()
+	$Hud.update_score(1,scoreJ1)
+	$Hud.update_score(2,scoreJ2)
 	$Hud.show_message("Get Ready")
 	get_tree().call_group("mobs", "queue_free")
 
@@ -54,9 +66,21 @@ func _on_mob_timer_timeout() -> void:
 	add_child(mob)
 
 func _on_score_timer_timeout() -> void:
-	score += 1
-	$Hud.update_score(score)
+	scoreJ2 += 1
+	scoreJ1 += 1
+	$Hud.update_score(1,scoreJ1)
+	$Hud.update_score(2,scoreJ2)
 	
 func _on_start_timer_timeout() -> void:
 	$MobTimer.start()
 	$ScoreTimer.start()
+
+func game_overJ2() -> void:
+	$ScoreTimer.stop()
+	$MobTimer.stop()
+	if yaColision == false:
+		$Hud.show_game_over(2)
+		yaColision = true
+	
+	$Music.stop()
+	$DeathSound.play()

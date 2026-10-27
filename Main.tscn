@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://dhmmbu1cjn3mc" path="res://Player.tscn" id="1_glv2v"]
 [ext_resource type="Script" uid="uid://d0usvvr62swq3" path="res://main.gd" id="1_uu6xs"]
 [ext_resource type="PackedScene" uid="uid://bvxgc4phqixxr" path="res://hud.tscn" id="3_r0du0"]
+[ext_resource type="AudioStream" uid="uid://ugg38otjn4o1" path="res://art/House In a Forest Loop.ogg" id="4_cm0pq"]
 
 [sub_resource type="Curve2D" id="Curve2D_glv2v"]
 _data = {
@@ -13,7 +14,16 @@ point_count = 6
 [node name="Main" type="Node" unique_id=977898739]
 script = ExtResource("1_uu6xs")
 
-[node name="Player" parent="." unique_id=1471799655 instance=ExtResource("1_glv2v")]
+[node name="DeathSound" type="AudioStreamPlayer2D" parent="." unique_id=1564827992]
+stream = ExtResource("4_cm0pq")
+
+[node name="Music" type="AudioStreamPlayer2D" parent="." unique_id=292315327]
+stream = ExtResource("4_cm0pq")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1239401871]
+offset_right = 512.0
+offset_bottom = 736.0
+color = Color(0.35195434, 0.58229005, 0.28742844, 1)
 
 [node name="MobTimer" type="Timer" parent="." unique_id=108079003]
 wait_time = 0.5
@@ -32,10 +42,16 @@ curve = SubResource("Curve2D_glv2v")
 
 [node name="MobSpawnLocation" type="PathFollow2D" parent="MobPath" unique_id=90246272]
 
+[node name="Player" parent="." unique_id=1471799655 instance=ExtResource("1_glv2v")]
+
+[node name="Player2" parent="." unique_id=1879284884 instance=ExtResource("1_glv2v")]
+numJugador = 2
+
 [node name="Hud" parent="." unique_id=575233060 instance=ExtResource("3_r0du0")]
 
-[connection signal="hit" from="Player" to="." method="game_over"]
 [connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
 [connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
+[connection signal="hit" from="Player" to="." method="game_over"]
+[connection signal="hit" from="Player2" to="." method="game_overJ2"]
 [connection signal="start_game" from="Hud" to="." method="new_game"]

@@ -1,9 +1,12 @@
 extends Node
 
 @export var mob_scene: PackedScene = preload("res://mob.tscn")
+@export var player_scene: PackedScene = preload("res://Player.tscn")
 var scoreJ1
 var scoreJ2
 var yaColision
+var gameTypeOp
+var Player2
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -19,19 +22,31 @@ func game_over() -> void:
 	$ScoreTimer.stop()
 	$MobTimer.stop()
 	if yaColision == false:
-		$Hud.show_game_over(1)
+		if gameTypeOp == true:
+			$Hud.show_game_over()
+		else:
+			$Hud.show_game_over(1)
 		yaColision = true
 		
 	$Music.stop()
 	$DeathSound.play()
 	
-
-func new_game():
+func new_game(gameType):
+	if gameType == false:
+		if Player2:
+			Player2.queue_free()
+		Player2 = player_scene.instantiate()
+		Player2.numJugador = 2
+		gameTypeOp = gameType
+		Player2.hit.connect(game_overJ2)
+		add_child(Player2) 
+		Player2.start($StartPosition.position + Vector2(50, 0))
+		
+	gameTypeOp = gameType
 	yaColision = false
 	scoreJ1 = 0
 	scoreJ2 = 0
 	$Player.start($StartPosition.position)
-	$Player2.start($StartPosition.position)
 	$StartTimer.start()
 	$Music.play()
 	$Hud.update_score(1,scoreJ1)
@@ -66,8 +81,8 @@ func _on_mob_timer_timeout() -> void:
 	add_child(mob)
 
 func _on_score_timer_timeout() -> void:
-	scoreJ2 += 1
-	scoreJ1 += 1
+	scoreJ2 = scoreJ2 + 1
+	scoreJ1 = scoreJ1 + 1
 	$Hud.update_score(1,scoreJ1)
 	$Hud.update_score(2,scoreJ2)
 	
@@ -79,7 +94,9 @@ func game_overJ2() -> void:
 	$ScoreTimer.stop()
 	$MobTimer.stop()
 	if yaColision == false:
-		$Hud.show_game_over(2)
+		if gameTypeOp == false:
+			Player2.queue_free()
+			$Hud.show_game_over(2)
 		yaColision = true
 	
 	$Music.stop()

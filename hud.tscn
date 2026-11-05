@@ -16,9 +16,9 @@ script = ExtResource("1_64ctp")
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -88.0
+offset_left = -80.0
 offset_top = 40.0
-offset_right = -43.0
+offset_right = -35.0
 offset_bottom = 118.0
 grow_horizontal = 2
 theme_override_fonts/font = ExtResource("2_8sq4i")
@@ -76,5 +76,35 @@ theme_override_fonts/font = ExtResource("2_8sq4i")
 theme_override_font_sizes/font_size = 64
 text = "0"
 
+[node name="ModeMultiLocal" type="Button" parent="." unique_id=971845539]
+offset_left = 272.0
+offset_top = 624.0
+offset_right = 413.0
+offset_bottom = 655.0
+text = "Mode Multi Local"
+
+[node name="ModeIndividual" type="Button" parent="." unique_id=1022007662]
+offset_left = 72.0
+offset_top = 624.0
+offset_right = 205.0
+offset_bottom = 655.0
+text = "Mode Individual"
+
+[node name="About" type="Button" parent="." unique_id=995226606]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 96.0
+offset_bottom = 40.0
+text = "About"
+
+[node name="Settings" type="Button" parent="." unique_id=810124420]
+offset_left = 384.0
+offset_top = 8.0
+offset_right = 472.0
+offset_bottom = 40.0
+text = "Settings"
+
 [connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="timeout" from="MessageTimer" to="." method="_on_message_timer_timeout"]
+[connection signal="pressed" from="ModeMultiLocal" to="." method="_on_mode_multi_local_pressed"]
+[connection signal="pressed" from="ModeIndividual" to="." method="_on_mode_individual_pressed"]

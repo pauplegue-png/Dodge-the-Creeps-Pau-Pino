@@ -44,14 +44,10 @@ curve = SubResource("Curve2D_glv2v")
 
 [node name="Player" parent="." unique_id=1471799655 instance=ExtResource("1_glv2v")]
 
-[node name="Player2" parent="." unique_id=1879284884 instance=ExtResource("1_glv2v")]
-numJugador = 2
-
 [node name="Hud" parent="." unique_id=575233060 instance=ExtResource("3_r0du0")]
 
 [connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
 [connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
 [connection signal="hit" from="Player" to="." method="game_over"]
-[connection signal="hit" from="Player2" to="." method="game_overJ2"]
 [connection signal="start_game" from="Hud" to="." method="new_game"]

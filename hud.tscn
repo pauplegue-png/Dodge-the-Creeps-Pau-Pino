@@ -104,7 +104,16 @@ offset_right = 472.0
 offset_bottom = 40.0
 text = "Settings"
 
+[node name="Window" type="Window" parent="." unique_id=1107010887]
+oversampling_override = 1.0
+mode = 1
+title = "Settigns"
+initial_position = 1
+size = Vector2i(400, 300)
+
 [connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="timeout" from="MessageTimer" to="." method="_on_message_timer_timeout"]
 [connection signal="pressed" from="ModeMultiLocal" to="." method="_on_mode_multi_local_pressed"]
 [connection signal="pressed" from="ModeIndividual" to="." method="_on_mode_individual_pressed"]
+[connection signal="pressed" from="Settings" to="." method="_on_settings_pressed"]
+[connection signal="close_requested" from="Window" to="." method="_on_window_close_requested"]

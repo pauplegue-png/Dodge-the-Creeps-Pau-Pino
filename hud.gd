@@ -5,6 +5,7 @@ var opcionJuego = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	$Window.hide()
 	$ScoreLabelJ2.hide()
 	$ScoreLabel.position = Vector2(get_viewport().get_visible_rect().size.x / 2, 50)
 
@@ -76,3 +77,12 @@ func _on_mode_individual_pressed() -> void:
 func _on_mode_multi_local_pressed() -> void:
 	opcionJuego = false
 	transformarHud(opcionJuego)
+
+
+func _on_settings_pressed() -> void:
+	$Window.show()
+	
+
+
+func _on_window_close_requested() -> void:
+	$Window.hide()

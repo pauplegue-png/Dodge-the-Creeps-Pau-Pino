@@ -1,14 +1,20 @@
 extends CanvasLayer
 signal start_game
 
+var configFile = ConfigFile.new()
 var opcionJuego = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	$Window.hide()
+	loadConfig()
+	$"Window Settings".hide()
+	$"Window About".hide()
 	$ScoreLabelJ2.hide()
 	$ScoreLabel.position = Vector2(get_viewport().get_visible_rect().size.x / 2, 50)
 
+
+func loadConfig() -> void:
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
@@ -80,9 +86,40 @@ func _on_mode_multi_local_pressed() -> void:
 
 
 func _on_settings_pressed() -> void:
-	$Window.show()
+	$"Window Settings".show()
 	
 
-
 func _on_window_close_requested() -> void:
-	$Window.hide()
+	$"Window Settings".hide()
+	
+func _on_musica_scroll_bar_value_changed(value: float) -> void:
+	var bus = AudioServer.get_bus_index("Master")
+	AudioServer.set_bus_volume_linear(bus, value)
+	$"Window Settings/MusicaScrollBar".value = value
+
+
+func _on_mute_buton_pressed() -> void:
+	var bus = AudioServer.get_bus_index("Master")
+	if AudioServer.is_bus_mute(bus):
+		AudioServer.set_bus_mute(bus,false)
+		$"Window Settings/btMuteButon".text = "Mutear musica"
+	else: 
+		AudioServer.set_bus_mute(bus,true)
+		$"Window Settings/btMuteButon".text = "Desmutear musica"
+
+
+func _on_mute_buton_2_pressed() -> void:
+	if get_viewport().mode == Window.MODE_MAXIMIZED:
+		get_viewport().mode = Window.MODE_WINDOWED
+		$"Window Settings/btPantallaCompleta".text = "Pantalla Completa"
+	else:
+		get_viewport().mode = Window.MODE_MAXIMIZED
+		$"Window Settings/btPantallaCompleta".text = "Pantalla Ventna"
+
+
+func _on_bt_confirm_conf_pressed() -> void:
+	var bus = AudioServer.get_bus_index("Master")
+	configFile.set_value("Config","volume", $"Window Settings/MusicaScrollBar".value)
+	configFile.set_value("Config","mute", AudioServer.is_bus_mute(bus))
+	configFile.set_value("Config","windowsMode", get_viewport().mode)
+	configFile.save("user://scores.cfg")

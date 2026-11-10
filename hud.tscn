@@ -104,16 +104,79 @@ offset_right = 472.0
 offset_bottom = 40.0
 text = "Settings"
 
-[node name="Window" type="Window" parent="." unique_id=1107010887]
+[node name="Window About" type="Window" parent="." unique_id=1821312780]
 oversampling_override = 1.0
 mode = 1
-title = "Settigns"
+title = "About"
+initial_position = 1
+size = Vector2i(250, 200)
+
+[node name="Window Settings" type="Window" parent="." unique_id=1107010887]
+oversampling_override = 1.0
+mode = 1
+title = "Settings"
 initial_position = 1
 size = Vector2i(400, 300)
+
+[node name="lbMusica" type="Label" parent="Window Settings" unique_id=183470918]
+offset_left = 120.0
+offset_top = 30.0
+offset_right = 289.0
+offset_bottom = 53.0
+text = "Volumen de la Musica"
+
+[node name="MusicaScrollBar" type="HSlider" parent="Window Settings" unique_id=851939837]
+anchors_preset = -1
+anchor_right = 0.010000001
+offset_left = 56.0
+offset_top = 62.0
+offset_right = 332.0
+offset_bottom = 78.0
+step = 5.0
+
+[node name="lbMuteLabel" type="Label" parent="Window Settings" unique_id=226438938]
+offset_left = 56.0
+offset_top = 102.0
+offset_right = 160.0
+offset_bottom = 125.0
+text = "Mute Music"
+
+[node name="btMuteButon" type="Button" parent="Window Settings" unique_id=2021969142]
+anchors_preset = -1
+anchor_right = 0.040000003
+offset_left = 200.0
+offset_top = 98.0
+offset_right = 335.0
+offset_bottom = 129.0
+text = "Mutear la musica"
+
+[node name="lbPantallaCompleta" type="Label" parent="Window Settings" unique_id=253273880]
+offset_left = 32.0
+offset_top = 150.0
+offset_right = 174.0
+offset_bottom = 173.0
+text = "Pantalla Completa"
+
+[node name="btPantallaCompleta" type="Button" parent="Window Settings" unique_id=1862758806]
+anchors_preset = -1
+anchor_right = 0.040000003
+offset_left = 201.0
+offset_top = 151.0
+offset_right = 336.0
+offset_bottom = 182.0
+text = "Pantalla Completa"
+
+[node name="btConfirmConf" type="Button" parent="Window Settings" unique_id=613166434]
+offset_right = 8.0
+offset_bottom = 8.0
 
 [connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="timeout" from="MessageTimer" to="." method="_on_message_timer_timeout"]
 [connection signal="pressed" from="ModeMultiLocal" to="." method="_on_mode_multi_local_pressed"]
 [connection signal="pressed" from="ModeIndividual" to="." method="_on_mode_individual_pressed"]
 [connection signal="pressed" from="Settings" to="." method="_on_settings_pressed"]
-[connection signal="close_requested" from="Window" to="." method="_on_window_close_requested"]
+[connection signal="close_requested" from="Window Settings" to="." method="_on_window_close_requested"]
+[connection signal="value_changed" from="Window Settings/MusicaScrollBar" to="." method="_on_musica_scroll_bar_value_changed"]
+[connection signal="pressed" from="Window Settings/btMuteButon" to="." method="_on_mute_buton_pressed"]
+[connection signal="pressed" from="Window Settings/btPantallaCompleta" to="." method="_on_mute_buton_2_pressed"]
+[connection signal="pressed" from="Window Settings/btConfirmConf" to="." method="_on_bt_confirm_conf_pressed"]

@@ -167,8 +167,14 @@ offset_bottom = 182.0
 text = "Pantalla Completa"
 
 [node name="btConfirmConf" type="Button" parent="Window Settings" unique_id=613166434]
-offset_right = 8.0
-offset_bottom = 8.0
+anchors_preset = -1
+anchor_right = 0.020000001
+anchor_bottom = 0.020000001
+offset_left = 112.0
+offset_top = 230.0
+offset_right = 280.0
+offset_bottom = 256.0
+text = "Confirmar Config"
 
 [connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="timeout" from="MessageTimer" to="." method="_on_message_timer_timeout"]

@@ -6,7 +6,6 @@ var opcionJuego = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	loadConfig()
 	$"Window Settings".hide()
 	$"Window About".hide()
 	$ScoreLabelJ2.hide()
@@ -14,7 +13,13 @@ func _ready() -> void:
 
 
 func loadConfig() -> void:
-	
+	var err = configFile.load("user://scores.cfg")
+	if err != OK:
+		return
+	var bus = AudioServer.get_bus_index("Master")
+	$"Window Settings/MusicaScrollBar".set_value(configFile.get_value("Audio","volume", 0))
+	AudioServer.set_bus_mute(bus, configFile.get_value("Audio","mute", false))
+	get_viewport().mode = configFile.get_value("Audio","windowsMode", Window.MODE_WINDOWED)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
@@ -54,9 +59,11 @@ func update_score(jugador, score):
 	
 func _on_message_timer_timeout() -> void:
 	$StartButton.hide()
-	$Missatge.hide()	
+	$Missatge.hide()
 	$ModeIndividual.hide()
 	$ModeMultiLocal.hide()
+	$"Window About".hide()
+	$"Window Settings".hide()
 
 func _on_start_button_pressed() -> void:
 	emit_signal("start_game", opcionJuego)
@@ -86,6 +93,7 @@ func _on_mode_multi_local_pressed() -> void:
 
 
 func _on_settings_pressed() -> void:
+	loadConfig()
 	$"Window Settings".show()
 	
 
@@ -119,7 +127,7 @@ func _on_mute_buton_2_pressed() -> void:
 
 func _on_bt_confirm_conf_pressed() -> void:
 	var bus = AudioServer.get_bus_index("Master")
-	configFile.set_value("Config","volume", $"Window Settings/MusicaScrollBar".value)
-	configFile.set_value("Config","mute", AudioServer.is_bus_mute(bus))
-	configFile.set_value("Config","windowsMode", get_viewport().mode)
+	configFile.set_value("Audio","volume", $"Window Settings/MusicaScrollBar".value)
+	configFile.set_value("Audio","mute", AudioServer.is_bus_mute(bus))
+	configFile.set_value("Window","windowsMode", get_viewport().mode)
 	configFile.save("user://scores.cfg")

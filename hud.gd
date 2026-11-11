@@ -3,6 +3,7 @@ signal start_game
 
 var configFile = ConfigFile.new()
 var opcionJuego = true
+var muerte = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -50,6 +51,9 @@ func show_game_over(jugadorPerdedor = null):
 	$StartButton.show()
 	$ModeIndividual.show()
 	$ModeMultiLocal.show()
+	$SaveModeButton.show()
+	$Settings.show()
+	$About.show()
 
 func update_score(jugador, score):
 	if jugador == 1:
@@ -60,15 +64,15 @@ func update_score(jugador, score):
 func _on_message_timer_timeout() -> void:
 	$StartButton.hide()
 	$Missatge.hide()
-	$ModeIndividual.hide()
-	$ModeMultiLocal.hide()
-	$"Window About".hide()
-	$"Window Settings".hide()
 
 func _on_start_button_pressed() -> void:
-	emit_signal("start_game", opcionJuego)
+	emit_signal("start_game", opcionJuego, muerte)
 	$StartButton.hide()
-	
+	$SaveModeButton.hide()
+	$Settings.hide()
+	$About.hide()
+	$ModeIndividual.hide()
+	$ModeMultiLocal.hide()
 
 func transformarHud(version):
 	if version == true:
@@ -131,3 +135,9 @@ func _on_bt_confirm_conf_pressed() -> void:
 	configFile.set_value("Audio","mute", AudioServer.is_bus_mute(bus))
 	configFile.set_value("Window","windowsMode", get_viewport().mode)
 	configFile.save("user://scores.cfg")
+
+func _on_save_mode_button_toggled(toggled_on: bool) -> void:
+	if(toggled_on):
+		muerte = false
+	else:
+		muerte = true

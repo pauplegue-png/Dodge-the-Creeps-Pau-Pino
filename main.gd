@@ -7,6 +7,7 @@ var scoreJ2
 var yaColision
 var gameTypeOp
 var Player2
+var death
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -19,19 +20,20 @@ func _process(_delta: float) -> void:
 	pass
 
 func game_over() -> void:
-	$ScoreTimer.stop()
-	$MobTimer.stop()
-	if yaColision == false:
-		if gameTypeOp == true:
-			$Hud.show_game_over()
-		else:
-			$Hud.show_game_over(1)
-		yaColision = true
-		
-	$Music.stop()
-	$DeathSound.play()
+		$ScoreTimer.stop()
+		$MobTimer.stop()
+		if yaColision == false:
+			if gameTypeOp == true:
+				$Hud.show_game_over()
+			else:
+				$Hud.show_game_over(1)
+			yaColision = true
+			
+		$Music.stop()
+		$DeathSound.play()
 	
-func new_game(gameType):
+func new_game(gameType, deathOption):
+	death = deathOption
 	if gameType == false:
 		if Player2:
 			Player2.queue_free()
@@ -40,13 +42,13 @@ func new_game(gameType):
 		gameTypeOp = gameType
 		Player2.hit.connect(game_overJ2)
 		add_child(Player2) 
-		Player2.start($StartPosition.position + Vector2(50, 0))
+		Player2.start($StartPosition.position + Vector2(50, 0), death)
 		
 	gameTypeOp = gameType
 	yaColision = false
 	scoreJ1 = 0
 	scoreJ2 = 0
-	$Player.start($StartPosition.position)
+	$Player.start($StartPosition.position, death)
 	$StartTimer.start()
 	$Music.play()
 	$Hud.update_score(1,scoreJ1)
@@ -91,13 +93,12 @@ func _on_start_timer_timeout() -> void:
 	$ScoreTimer.start()
 
 func game_overJ2() -> void:
-	$ScoreTimer.stop()
-	$MobTimer.stop()
-	if yaColision == false:
-		if gameTypeOp == false:
-			Player2.queue_free()
-			$Hud.show_game_over(2)
-		yaColision = true
-	
-	$Music.stop()
-	$DeathSound.play()
+		$ScoreTimer.stop()
+		$MobTimer.stop()
+		if yaColision == false:
+			if gameTypeOp == false:
+				Player2.queue_free()
+				$Hud.show_game_over(2)
+			yaColision = true
+		$Music.stop()
+		$DeathSound.play()

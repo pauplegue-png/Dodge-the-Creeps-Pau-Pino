@@ -77,17 +77,17 @@ theme_override_font_sizes/font_size = 64
 text = "0"
 
 [node name="ModeMultiLocal" type="Button" parent="." unique_id=971845539]
-offset_left = 272.0
-offset_top = 624.0
-offset_right = 413.0
-offset_bottom = 655.0
+offset_left = 288.0
+offset_top = 656.0
+offset_right = 429.0
+offset_bottom = 687.0
 text = "Mode Multi Local"
 
 [node name="ModeIndividual" type="Button" parent="." unique_id=1022007662]
-offset_left = 72.0
-offset_top = 624.0
-offset_right = 205.0
-offset_bottom = 655.0
+offset_left = 64.0
+offset_top = 656.0
+offset_right = 197.0
+offset_bottom = 687.0
 text = "Mode Individual"
 
 [node name="About" type="Button" parent="." unique_id=995226606]
@@ -176,6 +176,13 @@ offset_right = 280.0
 offset_bottom = 256.0
 text = "Confirmar Config"
 
+[node name="SaveModeButton" type="CheckButton" parent="." unique_id=1681869230]
+offset_left = 176.0
+offset_top = 592.0
+offset_right = 308.0
+offset_bottom = 640.0
+text = "Mode Save"
+
 [connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="timeout" from="MessageTimer" to="." method="_on_message_timer_timeout"]
 [connection signal="pressed" from="ModeMultiLocal" to="." method="_on_mode_multi_local_pressed"]
@@ -186,3 +193,4 @@ text = "Confirmar Config"
 [connection signal="pressed" from="Window Settings/btMuteButon" to="." method="_on_mute_buton_pressed"]
 [connection signal="pressed" from="Window Settings/btPantallaCompleta" to="." method="_on_mute_buton_2_pressed"]
 [connection signal="pressed" from="Window Settings/btConfirmConf" to="." method="_on_bt_confirm_conf_pressed"]
+[connection signal="toggled" from="SaveModeButton" to="." method="_on_save_mode_button_toggled"]

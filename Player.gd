@@ -5,6 +5,7 @@ signal hit
 @export var numJugador = 1# Identificador del jugador 
 var screen_size # Mida de la finestra de joc.
 
+var death
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	screen_size = get_viewport_rect().size
@@ -56,14 +57,17 @@ func _process(delta: float) -> void:
 		$AnimatedSprite2D.animation = "up"
 		$AnimatedSprite2D.flip_v = velocity.y > 0
 
-func start(pos):
+func start(pos, deathOption = true):
+	death = deathOption
 	position = pos
 	show()
 	$CollisionShape2D.disabled = false
 
-
 func _on_body_entered(_body: Node2D) -> void:
-	hide() # El jugador desapareix després de ser impactat.
-	emit_signal("hit")
-	# S'ha d'ajornar, ja que no podem canviar les propietats físiques en una crida de retorn de física.
-	$CollisionShape2D.set_deferred("disabled", true)
+	if death:
+		hide() # El jugador desapareix després de ser impactat.
+		emit_signal("hit")
+		# S'ha d'ajornar, ja que no podem canviar les propietats físiques en una crida de retorn de física.
+		$CollisionShape2D.set_deferred("disabled", true)
+	else:
+		pass

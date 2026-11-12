@@ -183,6 +183,20 @@ offset_right = 308.0
 offset_bottom = 640.0
 text = "Mode Save"
 
+[node name="Dificulty" type="OptionButton" parent="." unique_id=790887927]
+offset_left = 194.0
+offset_top = 10.0
+offset_right = 306.0
+offset_bottom = 42.0
+selected = 1
+item_count = 3
+popup/item_0/text = "Facil"
+popup/item_0/id = 0
+popup/item_1/text = "Normal"
+popup/item_1/id = 1
+popup/item_2/text = "Dificil"
+popup/item_2/id = 2
+
 [connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="timeout" from="MessageTimer" to="." method="_on_message_timer_timeout"]
 [connection signal="pressed" from="ModeMultiLocal" to="." method="_on_mode_multi_local_pressed"]
@@ -194,3 +208,4 @@ text = "Mode Save"
 [connection signal="pressed" from="Window Settings/btPantallaCompleta" to="." method="_on_mute_buton_2_pressed"]
 [connection signal="pressed" from="Window Settings/btConfirmConf" to="." method="_on_bt_confirm_conf_pressed"]
 [connection signal="toggled" from="SaveModeButton" to="." method="_on_save_mode_button_toggled"]
+[connection signal="item_selected" from="Dificulty" to="." method="_on_dificulty_item_selected"]

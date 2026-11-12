@@ -8,6 +8,7 @@ var yaColision
 var gameTypeOp
 var Player2
 var death
+var dificultVelocity
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -32,7 +33,12 @@ func game_over() -> void:
 		$Music.stop()
 		$DeathSound.play()
 	
-func new_game(gameType, deathOption):
+func new_game(gameType, deathOption, velocidad):
+	match velocidad:
+		0: dificultVelocity = 0.5
+		1: dificultVelocity = 1
+		2: dificultVelocity = 1.5
+	
 	death = deathOption
 	if gameType == false:
 		if Player2:
@@ -56,8 +62,6 @@ func new_game(gameType, deathOption):
 	$Hud.show_message("Get Ready")
 	get_tree().call_group("mobs", "queue_free")
 
-	
-	
 func _on_mob_timer_timeout() -> void:
 	# Crea una nova instància de l'escena Mob.
 	var mob = mob_scene.instantiate()
@@ -77,7 +81,7 @@ func _on_mob_timer_timeout() -> void:
 	mob.rotation = direction
 	
 	# Tria la velocitat de la multitud.
-	var velocity = Vector2(randf_range(150.0, 250.0), 0.0)
+	var velocity = Vector2(randf_range(150.0, 250.0), 0.0) * dificultVelocity
 	mob.linear_velocity = velocity.rotated(direction)
 	# Va fer que la multitud s'afegís a l'escena principal.
 	add_child(mob)

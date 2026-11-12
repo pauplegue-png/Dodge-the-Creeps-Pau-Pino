@@ -4,6 +4,7 @@ signal start_game
 var configFile = ConfigFile.new()
 var opcionJuego = true
 var muerte = true
+var dificultad = 1 # 0: Fácil, 1: Normal (por defecto), 2: Difícil
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -21,6 +22,8 @@ func loadConfig() -> void:
 	$"Window Settings/MusicaScrollBar".set_value(configFile.get_value("Audio","volume", 0))
 	AudioServer.set_bus_mute(bus, configFile.get_value("Audio","mute", false))
 	get_viewport().mode = configFile.get_value("Audio","windowsMode", Window.MODE_WINDOWED)
+	dificultad = configFile.get_value("Dificulty", "typeDificult", 1)
+	$OptionButton.selected = dificultad
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
@@ -39,14 +42,13 @@ func show_game_over(jugadorPerdedor = null):
 			show_message("Guanyador Jugador 2")
 		else: 
 			show_message("Guanyador Jugador 1")
-		# Espereu fins que el MessageTimer hagi acabat de comptar.
 		
 	else: show_message("Game over")
 		
 	await $MessageTimer.timeout
 	$Missatge.text = "Dodge the\nCreeps!"
 	$Missatge.show()
-	# Feu un temporitzador one-shot i espereu que acabi.
+	
 	await get_tree().create_timer(1).timeout
 	$StartButton.show()
 	$ModeIndividual.show()
@@ -54,6 +56,7 @@ func show_game_over(jugadorPerdedor = null):
 	$SaveModeButton.show()
 	$Settings.show()
 	$About.show()
+	$Dificulty.show()
 
 func update_score(jugador, score):
 	if jugador == 1:
@@ -66,13 +69,15 @@ func _on_message_timer_timeout() -> void:
 	$Missatge.hide()
 
 func _on_start_button_pressed() -> void:
-	emit_signal("start_game", opcionJuego, muerte)
+	# AQUÍ PASAMOS LOS TRES PARÁMETROS A MAIN: juego, muerte y dificultad
+	emit_signal("start_game", opcionJuego, muerte, dificultad)
 	$StartButton.hide()
 	$SaveModeButton.hide()
 	$Settings.hide()
 	$About.hide()
 	$ModeIndividual.hide()
 	$ModeMultiLocal.hide()
+	$Dificulty.hide()
 
 func transformarHud(version):
 	if version == true:
@@ -134,6 +139,8 @@ func _on_bt_confirm_conf_pressed() -> void:
 	configFile.set_value("Audio","volume", $"Window Settings/MusicaScrollBar".value)
 	configFile.set_value("Audio","mute", AudioServer.is_bus_mute(bus))
 	configFile.set_value("Window","windowsMode", get_viewport().mode)
+	
+	configFile.set_value("Dificulty", "typeDificult", dificultad) 
 	configFile.save("user://scores.cfg")
 
 func _on_save_mode_button_toggled(toggled_on: bool) -> void:
@@ -141,3 +148,6 @@ func _on_save_mode_button_toggled(toggled_on: bool) -> void:
 		muerte = false
 	else:
 		muerte = true
+
+func _on_dificulty_item_selected(index: int) -> void:
+	dificultad = index
